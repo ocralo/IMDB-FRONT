@@ -11,14 +11,19 @@ import {
 	FETCH_SERIES_ESPECIFIC_PENDING,
 	FETCH_SERIES_ESPECIFIC_SUCCESS,
 	FETCH_SERIES_ESPECIFIC_ERROR,
+	FETCH_SERIES_ESPECIFIC_SEASONS_PENDING,
+	FETCH_SERIES_ESPECIFIC_SEASONS_SUCCESS,
+	FETCH_SERIES_ESPECIFIC_SEASONS_ERROR,
 } from "../Actions/index";
 
 const initialState = {
 	pending: false,
 	series: [],
 	seriesSearch: [],
-	seriesEspecific:{},
+	seriesEspecific: {},
+	seriesEspecificSeason: {},
 	error: null,
+	errorSeason: null,
 };
 
 /**
@@ -49,7 +54,6 @@ export default function productsReducer(
 				error: action.error,
 			};
 		case FETCH_SERIES_PAGE_PENDING:
-			console.log(state);
 			return {
 				...state,
 				pending: true,
@@ -69,7 +73,6 @@ export default function productsReducer(
 				series: state.series,
 			};
 		case FETCH_SERIES_SEARCH_PENDING:
-			console.log(state);
 			return {
 				...state,
 				pending: true,
@@ -92,7 +95,6 @@ export default function productsReducer(
 				seriesSearch: state.seriesSearch,
 			};
 		case FETCH_SERIES_ESPECIFIC_PENDING:
-			console.log(state);
 			return {
 				...state,
 				pending: true,
@@ -111,6 +113,25 @@ export default function productsReducer(
 				error: action.error,
 				seriesEspecific: state.seriesEspecific,
 			};
+		case FETCH_SERIES_ESPECIFIC_SEASONS_PENDING:
+			return {
+				...state,
+				pending: true,
+				seriesEspecificSeason: state.seriesEspecificSeason,
+			};
+		case FETCH_SERIES_ESPECIFIC_SEASONS_SUCCESS:
+			return {
+				...state,
+				pending: false,
+				seriesEspecificSeason: action.seriesEspecificSeason,
+			};
+		case FETCH_SERIES_ESPECIFIC_SEASONS_ERROR:
+			return {
+				...state,
+				pending: false,
+				errorSeason: action.error,
+				seriesEspecificSeason: state.seriesEspecificSeason,
+			};
 		default:
 			return state;
 	}
@@ -119,5 +140,8 @@ export default function productsReducer(
 export const getSeries = (state) => state.series;
 export const getSeriesSearch = (state) => state.seriesSearch;
 export const getSeriesEspecific = (state) => state.seriesEspecific;
+export const getSeriesEspecificSeasons = (state) =>
+	state.seriesEspecificSeason;
 export const getSeriesPending = (state) => state.pending;
 export const getSeriesError = (state) => state.error;
+export const getSeriesErrorSeason = (state) => state.errorSeason;

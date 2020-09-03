@@ -15,6 +15,12 @@ export const FETCH_SERIES_ESPECIFIC_SUCCESS =
 	"FETCH_SERIES_ESPECIFIC_SUCCESS";
 export const FETCH_SERIES_ESPECIFIC_ERROR =
 	"FETCH_SERIES_ESPECIFIC_ERROR";
+export const FETCH_SERIES_ESPECIFIC_SEASONS_PENDING =
+	"FETCH_SERIES_ESPECIFIC_SEASONS_PENDING";
+export const FETCH_SERIES_ESPECIFIC_SEASONS_SUCCESS =
+	"FETCH_SERIES_ESPECIFIC_SEASONS_SUCCESS";
+export const FETCH_SERIES_ESPECIFIC_SEASONS_ERROR =
+	"FETCH_SERIES_ESPECIFIC_SEASONS_ERROR";
 
 /**
  * espera de la peticion, para traer series populares por pagina
@@ -131,6 +137,36 @@ export function fetchEspecificSeriesSuccess(seriesEspecific) {
 export function fetchEspecificSeriesError(error) {
 	return {
 		type: FETCH_SERIES_ESPECIFIC_ERROR,
+		error: error,
+	};
+}
+
+/**
+ * espera de la peticion, para traer series buscadas
+ */
+export function fetchEspecificSeriesSeasonsPending() {
+	return {
+		type: FETCH_SERIES_ESPECIFIC_SEASONS_PENDING,
+	};
+}
+/**
+ * trae las series populares, si la peticion fue correcta
+ * @param {Array} seriesSearch
+ */
+export function fetchEspecificSeriesSeasonsSuccess(seriesEspecificSeason) {
+	return {
+		type: FETCH_SERIES_ESPECIFIC_SEASONS_SUCCESS,
+		seriesEspecificSeason,
+	};
+}
+
+/**
+ * trae el error de si la peticion no se pudo realizar
+ * @param {*} error
+ */
+export function fetchEspecificSeriesSeasonsError(error) {
+	return {
+		type: FETCH_SERIES_ESPECIFIC_SEASONS_ERROR,
 		error: error,
 	};
 }
