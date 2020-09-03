@@ -12,6 +12,9 @@ import {
 	fetchSearchSeriesPending,
 	fetchSearchSeriesSuccess,
 	fetchSearchSeriesError,
+	fetchSearchSeriesPagePending,
+	fetchSearchSeriesPageSuccess,
+	fetchSearchSeriesPageError,
 	fetchEspecificSeriesPending,
 	fetchEspecificSeriesSuccess,
 	fetchEspecificSeriesError,
@@ -76,22 +79,43 @@ export const fetchSeries = (url, page = 1) => {
  */
 export const fetchSearchSeries = (url, page = 1, query = "a") => {
 	return (dispatch) => {
-		dispatch(fetchSearchSeriesPending());
-		axios
-			.get(
-				`${url}?api_key=b2907782d07859a652052d3bae537475&page=${page}&query=${query}`
-			)
-			.then((response) => {
-				// handle success
-				const dataResult = response.data.results;
-				dispatch(fetchSearchSeriesSuccess(dataResult));
-				return dataResult;
-			})
-			.catch((error) => {
-				// handle error
-				console.log(error);
-				dispatch(fetchSearchSeriesError(error));
-			});
+		if (page !== 1) {
+			dispatch(fetchSearchSeriesPagePending());
+			axios
+				.get(
+					`${url}?api_key=b2907782d07859a652052d3bae537475&page=${page}&query=${query}`
+				)
+				.then((response) => {
+					// handle success
+					const dataResult = response.data.results;
+					dispatch(
+						fetchSearchSeriesPageSuccess(dataResult)
+					);
+					return dataResult;
+				})
+				.catch((error) => {
+					// handle error
+					console.log(error);
+					dispatch(fetchSearchSeriesPageError(error));
+				});
+		} else {
+			dispatch(fetchSearchSeriesPending());
+			axios
+				.get(
+					`${url}?api_key=b2907782d07859a652052d3bae537475&page=${page}&query=${query}`
+				)
+				.then((response) => {
+					// handle success
+					const dataResult = response.data.results;
+					dispatch(fetchSearchSeriesSuccess(dataResult));
+					return dataResult;
+				})
+				.catch((error) => {
+					// handle error
+					console.log(error);
+					dispatch(fetchSearchSeriesError(error));
+				});
+		}
 	};
 };
 

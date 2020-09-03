@@ -34,12 +34,16 @@ const Searchs = ({ fetchSeries, series }) => {
 
 		fetchSeries(
 			"https://api.themoviedb.org/3/search/tv",
-			pageCount,
+			auxCount,
 			query
 		);
 		auxCount++;
 		setPageCount(auxCount);
-	}, [fetchSeries, pageCount, query]);
+	}, [query]);
+
+	useEffect(() => {
+		console.log("cambie",query);
+	}, [query]);
 
 	/**
 	 * Funcion que se encarga de de hacer la peticion,
@@ -78,7 +82,7 @@ const Searchs = ({ fetchSeries, series }) => {
 								md={6}
 								sm={6}
 								lg={4}
-								key={value.id}>
+								key={i + "-" + value.id}>
 								<CardSerie
 									title={value.name}
 									imageURL={value.backdrop_path}

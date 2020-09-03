@@ -8,6 +8,9 @@ import {
 	FETCH_SERIES_SEARCH_PENDING,
 	FETCH_SERIES_SEARCH_SUCCESS,
 	FETCH_SERIES_SEARCH_ERROR,
+	FETCH_SERIES_SEARCH_PAGE_PENDING,
+	FETCH_SERIES_SEARCH_PAGE_SUCCESS,
+	FETCH_SERIES_SEARCH_PAGE_ERROR,
 	FETCH_SERIES_ESPECIFIC_PENDING,
 	FETCH_SERIES_ESPECIFIC_SUCCESS,
 	FETCH_SERIES_ESPECIFIC_ERROR,
@@ -79,12 +82,31 @@ export default function productsReducer(
 				seriesSearch: state.seriesSearch,
 			};
 		case FETCH_SERIES_SEARCH_SUCCESS:
-			const actionSerieSearch = action.seriesSearch;
+			return {
+				...state,
+				pending: false,
+				seriesSearch: action.seriesSearch,
+			};
+		case FETCH_SERIES_SEARCH_PAGE_ERROR:
+			return {
+				...state,
+				pending: false,
+				error: action.error,
+				seriesSearch: state.seriesSearch,
+			};
+		case FETCH_SERIES_SEARCH_PAGE_PENDING:
+			return {
+				...state,
+				pending: true,
+				seriesSearch: state.seriesSearch,
+			};
+		case FETCH_SERIES_SEARCH_PAGE_SUCCESS:
+			const actionSerieSearch3 = action.seriesSearch;
 			return {
 				...state,
 				pending: false,
 				seriesSearch: state.seriesSearch.concat(
-					actionSerieSearch
+					actionSerieSearch3
 				),
 			};
 		case FETCH_SERIES_SEARCH_ERROR:
