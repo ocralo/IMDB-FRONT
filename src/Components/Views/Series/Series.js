@@ -18,17 +18,41 @@ import {
 	getSeriesError,
 	getSeriesPending,
 	getSeriesEspecific,
+	getSeriesEspecificSeasons,
+	getSeriesErrorSeason,
 } from "../../../Redux/Reducer/index";
 
 //importacion de componentes
-import { fetchEspecificSeries } from "../../../Requests/Requests";
+import {
+	fetchEspecificSeries,
+	fetchSeasonsSeries,
+} from "../../../Requests/Requests";
 
-function Series({ fetchSeries, serie }) {
-	let { query } = useParams();
+const Series = ({
+	fetchSeries,
+	fetchSeasons,
+	serie,
+	serieSeason,
+	errorSeason,
+}) => {
+	let { id } = useParams();
 
 	useEffect(() => {
-		fetchSeries("https://api.themoviedb.org/3/tv/", query);
-	}, [fetchSeries, query]);
+		fetchSeries("https://api.themoviedb.org/3/tv/", id);
+		fetchSeasons("https://api.themoviedb.org/3/tv/", id, 0);
+	}, [fetchSeasons, fetchSeries, id]);
+
+	useEffect(() => {
+		fetchSeasons("https://api.themoviedb.org/3/tv/", id, 1);
+	}, [errorSeason, fetchSeasons, id]);
+
+	const handleClickSeason = (tv_id, season_number) => {
+		fetchSeasons(
+			"https://api.themoviedb.org/3/tv/",
+			tv_id,
+			season_number
+		);
+	};
 
 	return (
 		<Container className="mt-5 mb-5">
@@ -61,14 +85,21 @@ function Series({ fetchSeries, serie }) {
 						<Col>
 							<Nav
 								variant="tabs"
-								defaultActiveKey="Link-0">
+								defaultActiveKey="1"
+								onSelect={(i) => {
+									handleClickSeason(
+										id,
+										i
+										//season?.season_number
+									);
+								}}>
 								{Array.isArray(serie?.seasons)
 									? serie?.seasons.map((season) => {
 											return (
 												<Nav.Item
 													key={season?.id}>
 													<Nav.Link
-														eventKey={`Link-${season?.season_number}`}>
+														eventKey={`${season?.season_number}`}>
 														{
 															season?.season_number
 														}
@@ -83,21 +114,33 @@ function Series({ fetchSeries, serie }) {
 					<Row>
 						<Col>
 							<ListGroup>
-								<ListGroup.Item className="border-top-0 rounded-0 rounded-bottom">
-									Cras justo odio
-								</ListGroup.Item>
-								<ListGroup.Item>
-									Dapibus ac facilisis in
-								</ListGroup.Item>
-								<ListGroup.Item>
-									Morbi leo risus
-								</ListGroup.Item>
-								<ListGroup.Item>
-									Porta ac consectetur ac
-								</ListGroup.Item>
-								<ListGroup.Item>
-									Vestibulum at eros
-								</ListGroup.Item>
+								{Array.isArray(
+									serieSeason.episodes
+								) ? (
+									serieSeason.episodes.map(
+										(value) => {
+											return (
+												<ListGroup.Item
+													key={value.id}
+													className="border-top-0 rounded-0 rounded-bottom d-flex justify-content-between">
+													<span>
+														{value.name}
+													</span>
+													<span>
+														Episodio{" "}
+														{
+															value.episode_number
+														}
+													</span>
+												</ListGroup.Item>
+											);
+										}
+									)
+								) : (
+									<ListGroup.Item className="border-top-0 rounded-0 rounded-bottom">
+										{" "}
+									</ListGroup.Item>
+								)}
 							</ListGroup>
 						</Col>
 					</Row>
@@ -105,7 +148,7 @@ function Series({ fetchSeries, serie }) {
 			</Row>
 		</Container>
 	);
-}
+};
 
 /**
  * trae los estados de la storage
@@ -114,7 +157,9 @@ function Series({ fetchSeries, serie }) {
 const mapStateToProps = (state) => ({
 	error: getSeriesError(state),
 	serie: getSeriesEspecific(state),
+	serieSeason: getSeriesEspecificSeasons(state),
 	pending: getSeriesPending(state),
+	errorSeason: getSeriesErrorSeason(state),
 });
 
 /**
@@ -126,6 +171,7 @@ const mapDispatchToProps = (dispatch) =>
 	bindActionCreators(
 		{
 			fetchSeries: fetchEspecificSeries,
+			fetchSeasons: fetchSeasonsSeries,
 		},
 		dispatch
 	);

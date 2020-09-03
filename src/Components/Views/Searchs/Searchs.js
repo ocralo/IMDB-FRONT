@@ -39,7 +39,7 @@ const Searchs = ({ fetchSeries, series }) => {
 		);
 		auxCount++;
 		setPageCount(auxCount);
-	}, [fetchSeries, query]);
+	}, [fetchSeries, pageCount, query]);
 
 	/**
 	 * Funcion que se encarga de de hacer la peticion,
