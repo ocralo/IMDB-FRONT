@@ -75,12 +75,15 @@ const Searchs = ({ fetchSeries, series }) => {
 						return (
 							<Col
 								xs={12}
-								md={4}
+								md={6}
 								sm={6}
-								key={`${value.id}-${i}`}>
+								lg={4}
+								key={value.id}>
 								<CardSerie
 									title={value.name}
 									imageURL={value.backdrop_path}
+									vote_average={value.vote_average}
+									idSerie={value.id}
 								/>
 							</Col>
 						);

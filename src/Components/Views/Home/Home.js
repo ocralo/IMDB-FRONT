@@ -19,7 +19,7 @@ import {
 
 //importacion de componentes
 import CardSerie from "../../Components/CardSerie/CardSerie";
-import {fetchSeries} from "../../../Requests/Requests";
+import { fetchSeries } from "../../../Requests/Requests";
 
 /**
  * Vista principal de la aplicacion
@@ -31,7 +31,7 @@ const Home = ({ fetchSeries, series }) => {
 	}, [fetchSeries]);
 
 	/**
-	 * Funcion que se encarga de de hacer la peticion, 
+	 * Funcion que se encarga de de hacer la peticion,
 	 * para traer los nuevos datos de la pagincion,
 	 * ademas de sumar al contador pageCount
 	 */
@@ -59,10 +59,17 @@ const Home = ({ fetchSeries, series }) => {
 					loader={<h4>Loading...</h4>}
 					className="row">
 					{series.map((value) => (
-						<Col xs={12} md={4} sm={6} key={value.id}>
+						<Col
+							xs={12}
+							md={6}
+							sm={6}
+							lg={4}
+							key={value.id}>
 							<CardSerie
 								title={value.name}
 								imageURL={value.backdrop_path}
+								vote_average={value.vote_average}
+								idSerie={value.id}
 							/>
 						</Col>
 					))}
