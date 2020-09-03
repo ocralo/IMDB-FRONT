@@ -23,7 +23,7 @@ export default function CardSerie({
 		<div
 			className="flip-card mt-4"
 			onDoubleClick={handleDoubleClick}>
-			<div class="flip-card-inner">
+			<div className="flip-card-inner">
 				<Card className="shadow flip-card-front">
 					<Card.Img
 						variant="top"
