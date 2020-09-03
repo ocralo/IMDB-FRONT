@@ -15,6 +15,9 @@ import {
 	fetchEspecificSeriesPending,
 	fetchEspecificSeriesSuccess,
 	fetchEspecificSeriesError,
+	fetchEspecificSeriesSeasonsPending,
+	fetchEspecificSeriesSeasonsSuccess,
+	fetchEspecificSeriesSeasonsError,
 } from "../Redux/Actions/index";
 
 /**
@@ -34,7 +37,6 @@ export const fetchSeries = (url, page = 1) => {
 				.then((response) => {
 					// handle success
 					const dataResult = response.data.results;
-					console.log(dataResult);
 					dispatch(fetchSeriesPageSuccess(dataResult));
 					return dataResult;
 				})
@@ -75,7 +77,6 @@ export const fetchSeries = (url, page = 1) => {
 export const fetchSearchSeries = (url, page = 1, query = "a") => {
 	return (dispatch) => {
 		dispatch(fetchSearchSeriesPending());
-		console.log(url);
 		axios
 			.get(
 				`${url}?api_key=b2907782d07859a652052d3bae537475&page=${page}&query=${query}`
@@ -83,7 +84,6 @@ export const fetchSearchSeries = (url, page = 1, query = "a") => {
 			.then((response) => {
 				// handle success
 				const dataResult = response.data.results;
-				console.log(dataResult);
 				dispatch(fetchSearchSeriesSuccess(dataResult));
 				return dataResult;
 			})
@@ -100,13 +100,11 @@ export const fetchSearchSeries = (url, page = 1, query = "a") => {
  * que retorna la busqueda de una palabra, con relacion a
  * un nombre de serie
  * @param {string} url
- * @param {int} page
- * @param {string} query
+ * @param {int} id
  */
 export const fetchEspecificSeries = (url, id = 63174) => {
 	return (dispatch) => {
 		dispatch(fetchEspecificSeriesPending());
-		console.log(url);
 		axios
 			.get(
 				`${url}${id}?api_key=b2907782d07859a652052d3bae537475`
@@ -114,7 +112,6 @@ export const fetchEspecificSeries = (url, id = 63174) => {
 			.then((response) => {
 				// handle success
 				const dataResult = response.data;
-				console.log(dataResult);
 				dispatch(fetchEspecificSeriesSuccess(dataResult));
 				return dataResult;
 			})
@@ -122,6 +119,40 @@ export const fetchEspecificSeries = (url, id = 63174) => {
 				// handle error
 				console.log(error);
 				dispatch(fetchEspecificSeriesError(error));
+			});
+	};
+};
+
+/**
+ * Funcion que realiza peticion get a la api de TMDB con la key generada
+ * que retorna la busqueda de las emporadas y el rating
+ * @param {string} url
+ * @param {int} episode_number
+ * @param {int} tv_id
+ */
+export const fetchSeasonsSeries = (
+	url,
+	tv_id = 1,
+	season_number = 1
+) => {
+	return (dispatch) => {
+		dispatch(fetchEspecificSeriesSeasonsPending());
+		axios
+			.get(
+				`${url}${tv_id}/season/${season_number}?api_key=b2907782d07859a652052d3bae537475`
+			)
+			.then((response) => {
+				// handle success
+				const dataResult = response.data;
+				dispatch(
+					fetchEspecificSeriesSeasonsSuccess(dataResult)
+				);
+				return dataResult;
+			})
+			.catch((error) => {
+				// handle error
+				console.log(error);
+				dispatch(fetchEspecificSeriesSeasonsError(error));
 			});
 	};
 };
