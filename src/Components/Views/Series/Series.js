@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 //importacion de librerias externas
 import {
@@ -17,14 +17,19 @@ import { useParams } from "react-router-dom";
 import {
 	getSeriesError,
 	getSeriesPending,
-	getSeriesSearch,
+	getSeriesEspecific,
 } from "../../../Redux/Reducer/index";
 
 //importacion de componentes
-import { fetchSearchSeries } from "../../../Requests/Requests";
+import { fetchEspecificSeries } from "../../../Requests/Requests";
 
-function Series() {
+function Series({ fetchSeries, serie }) {
 	let { query } = useParams();
+
+	useEffect(() => {
+		fetchSeries("https://api.themoviedb.org/3/tv/", query);
+	}, [fetchSeries, query]);
+
 	return (
 		<Container className="mt-5 mb-5">
 			<Row>
@@ -32,11 +37,16 @@ function Series() {
 					<Card className="shadow">
 						<Card.Img
 							variant="top"
-							src="https://image.tmdb.org/t/p/w500/k1lICEYRpJeFRIRfjxYwmpO9LTu.jpg"
+							src={
+								serie?.poster_path
+									? `https://image.tmdb.org/t/p/w500${serie.poster_path}`
+									: "https://image.tmdb.org/t/p/w500/k1lICEYRpJeFRIRfjxYwmpO9LTu.jpg"
+							}
+							className="poster-img"
 						/>
 						<Card.Body>
 							<Card.Title className="mb-0">
-								Title Series
+								{serie?.name}
 							</Card.Title>
 						</Card.Body>
 					</Card>
@@ -51,17 +61,22 @@ function Series() {
 						<Col>
 							<Nav
 								variant="tabs"
-								defaultActiveKey="link-0">
-								<Nav.Item>
-									<Nav.Link eventKey="link-0">
-										Active
-									</Nav.Link>
-								</Nav.Item>
-								<Nav.Item>
-									<Nav.Link eventKey="link-1">
-										Option 2
-									</Nav.Link>
-								</Nav.Item>
+								defaultActiveKey="Link-0">
+								{Array.isArray(serie?.seasons)
+									? serie?.seasons.map((season) => {
+											return (
+												<Nav.Item
+													key={season?.id}>
+													<Nav.Link
+														eventKey={`Link-${season?.season_number}`}>
+														{
+															season?.season_number
+														}
+													</Nav.Link>
+												</Nav.Item>
+											);
+									  })
+									: ""}
 							</Nav>
 						</Col>
 					</Row>
@@ -98,7 +113,7 @@ function Series() {
  */
 const mapStateToProps = (state) => ({
 	error: getSeriesError(state),
-	series: getSeriesSearch(state),
+	serie: getSeriesEspecific(state),
 	pending: getSeriesPending(state),
 });
 
@@ -110,7 +125,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>
 	bindActionCreators(
 		{
-			fetchSeries: fetchSearchSeries,
+			fetchSeries: fetchEspecificSeries,
 		},
 		dispatch
 	);
