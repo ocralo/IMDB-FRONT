@@ -8,12 +8,16 @@ import {
 	FETCH_SERIES_SEARCH_PENDING,
 	FETCH_SERIES_SEARCH_SUCCESS,
 	FETCH_SERIES_SEARCH_ERROR,
+	FETCH_SERIES_ESPECIFIC_PENDING,
+	FETCH_SERIES_ESPECIFIC_SUCCESS,
+	FETCH_SERIES_ESPECIFIC_ERROR,
 } from "../Actions/index";
 
 const initialState = {
 	pending: false,
 	series: [],
 	seriesSearch: [],
+	seriesEspecific:{},
 	error: null,
 };
 
@@ -76,7 +80,9 @@ export default function productsReducer(
 			return {
 				...state,
 				pending: false,
-				seriesSearch: state.seriesSearch.concat(actionSerieSearch),
+				seriesSearch: state.seriesSearch.concat(
+					actionSerieSearch
+				),
 			};
 		case FETCH_SERIES_SEARCH_ERROR:
 			return {
@@ -85,6 +91,26 @@ export default function productsReducer(
 				error: action.error,
 				seriesSearch: state.seriesSearch,
 			};
+		case FETCH_SERIES_ESPECIFIC_PENDING:
+			console.log(state);
+			return {
+				...state,
+				pending: true,
+				seriesEspecific: state.seriesEspecific,
+			};
+		case FETCH_SERIES_ESPECIFIC_SUCCESS:
+			return {
+				...state,
+				pending: false,
+				seriesEspecific: action.seriesEspecific,
+			};
+		case FETCH_SERIES_ESPECIFIC_ERROR:
+			return {
+				...state,
+				pending: false,
+				error: action.error,
+				seriesEspecific: state.seriesEspecific,
+			};
 		default:
 			return state;
 	}
@@ -92,5 +118,6 @@ export default function productsReducer(
 
 export const getSeries = (state) => state.series;
 export const getSeriesSearch = (state) => state.seriesSearch;
+export const getSeriesEspecific = (state) => state.seriesEspecific;
 export const getSeriesPending = (state) => state.pending;
 export const getSeriesError = (state) => state.error;

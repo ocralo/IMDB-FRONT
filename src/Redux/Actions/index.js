@@ -1,4 +1,3 @@
-// tipos de
 export const FETCH_SERIES_PENDING = "FETCH_SERIES_PENDING";
 export const FETCH_SERIES_SUCCESS = "FETCH_SERIES_SUCCESS";
 export const FETCH_SERIES_ERROR = "FETCH_SERIES_ERROR";
@@ -10,6 +9,12 @@ export const FETCH_SERIES_SEARCH_PENDING =
 export const FETCH_SERIES_SEARCH_SUCCESS =
 	"FETCH_SERIES_SEARCH_SUCCESS";
 export const FETCH_SERIES_SEARCH_ERROR = "FETCH_SERIES_SEARCH_ERROR";
+export const FETCH_SERIES_ESPECIFIC_PENDING =
+	"FETCH_SERIES_ESPECIFIC_PENDING";
+export const FETCH_SERIES_ESPECIFIC_SUCCESS =
+	"FETCH_SERIES_ESPECIFIC_SUCCESS";
+export const FETCH_SERIES_ESPECIFIC_ERROR =
+	"FETCH_SERIES_ESPECIFIC_ERROR";
 
 /**
  * espera de la peticion, para traer series populares por pagina
@@ -96,6 +101,36 @@ export function fetchSearchSeriesSuccess(seriesSearch) {
 export function fetchSearchSeriesError(error) {
 	return {
 		type: FETCH_SERIES_SEARCH_ERROR,
+		error: error,
+	};
+}
+
+/**
+ * espera de la peticion, para traer series buscadas
+ */
+export function fetchEspecificSeriesPending() {
+	return {
+		type: FETCH_SERIES_ESPECIFIC_PENDING,
+	};
+}
+/**
+ * trae las series populares, si la peticion fue correcta
+ * @param {Array} seriesSearch
+ */
+export function fetchEspecificSeriesSuccess(seriesEspecific) {
+	return {
+		type: FETCH_SERIES_ESPECIFIC_SUCCESS,
+		seriesEspecific,
+	};
+}
+
+/**
+ * trae el error de si la peticion no se pudo realizar
+ * @param {*} error
+ */
+export function fetchEspecificSeriesError(error) {
+	return {
+		type: FETCH_SERIES_ESPECIFIC_ERROR,
 		error: error,
 	};
 }
