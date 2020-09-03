@@ -10,6 +10,7 @@ import {
 //importacion de componenetes
 import Home from "./Components/Views/Home/Home";
 import Search from "./Components/Views/Searchs/Searchs";
+import Series from "./Components/Views/Series/Series";
 import NavBar from "./Components/Components/NavBar/NavBar";
 
 /**
@@ -22,6 +23,9 @@ export default function Routes() {
 			<Switch>
 				<Route exact path="/">
 					<Home />
+				</Route>
+				<Route exact path="/Series/:id">
+					<Series />
 				</Route>
 				<Route path="/search/:query">
 					<Search />
