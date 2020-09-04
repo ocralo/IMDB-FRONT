@@ -27,6 +27,7 @@ const initialState = {
 	seriesEspecificSeason: {},
 	error: null,
 	errorSeason: null,
+	errorSearch: null,
 };
 
 /**
@@ -91,7 +92,7 @@ export default function productsReducer(
 			return {
 				...state,
 				pending: false,
-				error: action.error,
+				errorSearch: action.error,
 				seriesSearch: state.seriesSearch,
 			};
 		case FETCH_SERIES_SEARCH_PAGE_PENDING:
@@ -166,4 +167,5 @@ export const getSeriesEspecificSeasons = (state) =>
 	state.seriesEspecificSeason;
 export const getSeriesPending = (state) => state.pending;
 export const getSeriesError = (state) => state.error;
+export const getSeriesErrorSearch = (state) => state.errorSearch;
 export const getSeriesErrorSeason = (state) => state.errorSeason;

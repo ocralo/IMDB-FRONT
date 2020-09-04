@@ -13,9 +13,9 @@ import { useParams } from "react-router-dom";
 
 //importacion de reducer de redux
 import {
-	getSeriesError,
 	getSeriesPending,
 	getSeriesSearch,
+	getSeriesErrorSearch,
 } from "../../../Redux/Reducer/index";
 
 //importacion de componentes
@@ -25,12 +25,12 @@ import { fetchSearchSeries } from "../../../Requests/Requests";
 /**
  * Vista de una busqueda de serie en la aplicacion
  */
-const Searchs = ({ fetchSeries, series }) => {
+const Searchs = ({ fetchSeries, series, error }) => {
 	let { query } = useParams();
 	const [pageCount, setPageCount] = useState(1);
 
 	useEffect(() => {
-		let auxCount = pageCount;
+		let auxCount = 1;
 
 		fetchSeries(
 			"https://api.themoviedb.org/3/search/tv",
@@ -39,10 +39,6 @@ const Searchs = ({ fetchSeries, series }) => {
 		);
 		auxCount++;
 		setPageCount(auxCount);
-	}, [query]);
-
-	useEffect(() => {
-		console.log("cambie",query);
 	}, [query]);
 
 	/**
@@ -60,7 +56,8 @@ const Searchs = ({ fetchSeries, series }) => {
 		auxCount++;
 		setPageCount(auxCount);
 	};
-	return (
+	console.log(series);
+	return !error && series.length > 0 ? (
 		<Container className="mt-4">
 			<Row>
 				<Col>
@@ -95,6 +92,22 @@ const Searchs = ({ fetchSeries, series }) => {
 				</InfiniteScroll>
 			</Row>
 		</Container>
+	) : (
+		<Container className="mt-4">
+			<Row>
+				<Col className="text-center">
+					<h1>
+						No se encontro coincidencia en la busqueda
+					</h1>
+					<img
+						src={`${process.env.PUBLIC_URL}/img/question.svg`}
+						width="300"
+						alt="not found"
+						className="mt-4"
+					/>
+				</Col>
+			</Row>
+		</Container>
 	);
 };
 
@@ -103,7 +116,7 @@ const Searchs = ({ fetchSeries, series }) => {
  * @param {*} state
  */
 const mapStateToProps = (state) => ({
-	error: getSeriesError(state),
+	error: getSeriesErrorSearch(state),
 	series: getSeriesSearch(state),
 	pending: getSeriesPending(state),
 });
