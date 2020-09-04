@@ -2,7 +2,7 @@ import React from "react";
 
 //importacion de librerias externas
 import {
-	BrowserRouter as Router,
+	HashRouter as Router,
 	Switch,
 	Route,
 } from "react-router-dom";
