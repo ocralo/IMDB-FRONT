@@ -56,7 +56,13 @@ export default function NavBar() {
 					<Nav className="mr-auto">
 						{location.pathname.indexOf("Series") >= 0 ? (
 							<Nav.Link
-								onClick={() => history.goBack()}>
+								onClick={() => history.goBack()}
+								className="btn-back">
+								<img
+									src={`${process.env.PUBLIC_URL}/img/back.svg`}
+									alt="back"
+									width="25"
+								/>{" "}
 								Regresar
 							</Nav.Link>
 						) : (

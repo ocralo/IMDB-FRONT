@@ -5,3 +5,16 @@
 		}
 	}
 }
+.btn-back {
+	color: $Green-color !important;
+	border: 1px solid $Grey-color !important;
+	border-radius: 16px;
+	&:hover {
+		color: $white-color !important;
+		background-color: $Green-color !important;
+		border-color: $Green-color !important;
+		img {
+			filter: saturate(0);
+		}
+	}
+}
