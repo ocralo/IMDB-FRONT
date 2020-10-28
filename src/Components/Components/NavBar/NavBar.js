@@ -101,7 +101,7 @@ export default function NavBar() {
 											className="mr-sm-2 mb-2"
 											onChange={handleChange}
 											name="search"
-											pattern="'/[^\w\s+$]/u'"
+											pattern="/[^\w\s+$]/u"
 											title="No se aceptan caracteres especiales en la busqueda"
 										/>
 										<Button
